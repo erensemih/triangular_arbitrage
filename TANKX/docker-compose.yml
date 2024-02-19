@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  collect_ticker_data:
+    build: ./collect_ticker_data
+    depends_on:
+      - redis
+
+  analyse:
+    build: ./analyse
+    depends_on:
+      - redis
+
+  trading:
+    build: ./trading
+    depends_on:
+      - redis
