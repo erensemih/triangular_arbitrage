@@ -11,8 +11,6 @@ REDIS_HOSTNAME = os.getenv('REDIS_HOSTNAME')
 
 def process_triangle(triangle):
     A, B, C = triangle.split("_")[0], triangle.split("_")[1], triangle.split("_")[2]
-    #print(A,B,C)
-    #try:
     bid_A = float(redis_client.hget(A, "bid"))
     bid_B = float(redis_client.hget(B, "bid"))
     bid_C = float(redis_client.hget(C, "bid"))
@@ -20,11 +18,9 @@ def process_triangle(triangle):
     ask_A = float(redis_client.hget(A, "ask"))
     ask_B = float(redis_client.hget(B, "ask"))
     ask_C = float(redis_client.hget(C, "ask"))
-    #print(A,B,C)
     
     print("{A}, {B}, {C} triangular bid artibrage",bid_A*bid_B/bid_C)
     print("{A}, {B}, {C} triangular ask artibrage",ask_A*ask_B/ask_C)
-    #except:pass
 
 
 

@@ -15,19 +15,13 @@ from binance import ThreadedWebsocketManager
 import os
 import redis
 import json
-import logging
-#import nest_asyncio
-#nest_asyncio.apply()
 
-# Your existing code to initialize and start the ThreadedWebsocketManager goes here
-import time
-time.sleep(3)
+
 
 # Initialize the client
 client = Client(api_key, api_secret)
 redis_client = redis.Redis(host=REDIS_HOSTNAME, port=REDIS_PORT)
 
-# Placeholder for storing the latest data for each symbol
 
 
 
@@ -58,13 +52,8 @@ while True:
 
     except:
         symbols = set()
-    #logging.warning(list(symbols)[:3])
     to_be_run = symbols- set(threads.keys())
     to_be_stopped =  set(threads.keys()) - symbols
-    #logging.warning("to_be_run")
-    #logging.warning(to_be_run)
-    #logging.warning("to_be_stopped")
-    #logging.warning(to_be_stopped)
 
     for symbol in to_be_run:
         conn_key = twm.start_symbol_book_ticker_socket(callback=write_to_redis, symbol=symbol)
@@ -75,5 +64,4 @@ while True:
         del threads[symbol]
         remove_from_redis(symbol)
     
-    #logging.warning("len_threads")
-#twm.join()
+

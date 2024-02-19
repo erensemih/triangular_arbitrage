@@ -24,7 +24,6 @@ redis_client = redis.Redis(host='redis', port=6379)
 
 discrepancy_dict = {f"{A}_{B}_{C}":0 for A,B,C in all_triangles}
 
-#def update_redis(top_n_triangles, top_n_symbols):
 
 
 
