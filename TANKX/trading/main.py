@@ -1,12 +1,11 @@
 import redis
 import json
 from extended_threading import StoppableThread
-import logging
-
-REDIS_PORT = 6379
-REDIS_HOSTNAME = "redis"
-redis_client = redis.Redis(host=REDIS_HOSTNAME, port=REDIS_PORT)
 import os 
+
+
+redis_client = redis.Redis(host=REDIS_HOSTNAME, port=REDIS_PORT)
+
 REDIS_PORT = os.getenv('REDIS_PORT')
 REDIS_HOSTNAME = os.getenv('REDIS_HOSTNAME')
 
@@ -34,18 +33,11 @@ threads = {}
 
 while True:
     best_triangles = json.loads(redis_client.get('top_n_triangles'))
-    #logging.warning("best_triangles")
-    #logging.warning(best_triangles)
     best_triangles_set = set(['_'.join(triangle) for triangle in best_triangles])
 
     to_be_run = best_triangles_set- set(threads.keys())
-    #logging.warning("best_triangles_set")
-    #logging.warning(len(to_be_run))
     to_be_stopped =  set(threads.keys()) - best_triangles_set
-    #logging.warning("to_be_stopped")
-    #logging.warning(len(to_be_stopped))
-    #logging.warning("len_to_be_stoppedn")
-    #logging.warning(len(to_be_stopped))
+
 
     # Create and start the thread with a target function
     for triangle in to_be_run:
