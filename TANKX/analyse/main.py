@@ -1,10 +1,15 @@
-,
+
+import os
+# To get the value of an environment variable
+from dotenv import load_dotenv
 import os
 
-# To get the value of an environment variable
+# Load environment variables from a .env file
+load_dotenv()
+
 api_key = os.getenv('api_key')
 api_secret = os.getenv('api_secret')
-MAX_NUMBER_OF_SYMBOLS = os.getenv('MAX_NUMBER_OF_SYMBOLS')
+MAX_NUMBER_OF_SYMBOLS = int(os.getenv('MAX_NUMBER_OF_SYMBOLS'))
 
 
 

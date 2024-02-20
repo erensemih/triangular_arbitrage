@@ -1,3 +1,4 @@
 redis
 numpy
 python-binance
+python-dotenv

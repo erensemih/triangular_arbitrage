@@ -1,26 +1,37 @@
 import redis
 import json
 from extended_threading import StoppableThread
-import os 
+from dotenv import load_dotenv
+import os
 
-
-redis_client = redis.Redis(host=REDIS_HOSTNAME, port=REDIS_PORT)
-
+# Load environment variables from a .env file
+load_dotenv()
 REDIS_PORT = os.getenv('REDIS_PORT')
 REDIS_HOSTNAME = os.getenv('REDIS_HOSTNAME')
+redis_client = redis.Redis(host=REDIS_HOSTNAME, port=REDIS_PORT)
+
 
 def process_triangle(triangle):
     A, B, C = triangle.split("_")[0], triangle.split("_")[1], triangle.split("_")[2]
-    bid_A = float(redis_client.hget(A, "bid"))
-    bid_B = float(redis_client.hget(B, "bid"))
-    bid_C = float(redis_client.hget(C, "bid"))
+    try:    
+        bid_A = float(redis_client.hget(A, "bid"))
+        bid_B = float(redis_client.hget(B, "bid"))
+        bid_C = float(redis_client.hget(C, "bid"))
+        print(f"{A}, {B}, {C} triangular bid artibrage",bid_A*bid_B/bid_C)
+    except TypeError:
+        pass
 
-    ask_A = float(redis_client.hget(A, "ask"))
-    ask_B = float(redis_client.hget(B, "ask"))
-    ask_C = float(redis_client.hget(C, "ask"))
-    
-    print("{A}, {B}, {C} triangular bid artibrage",bid_A*bid_B/bid_C)
-    print("{A}, {B}, {C} triangular ask artibrage",ask_A*ask_B/ask_C)
+    try:
+        ask_A = float(redis_client.hget(A, "ask"))
+        ask_B = float(redis_client.hget(B, "ask"))
+        ask_C = float(redis_client.hget(C, "ask"))
+        
+        
+        print(f"{A}, {B}, {C} triangular ask artibrage",ask_A*ask_B/ask_C)
+
+    except TypeError:
+        pass
+
 
 
 

@@ -1,7 +1,10 @@
 
 
+from dotenv import load_dotenv
 import os
 
+# Load environment variables from a .env file
+load_dotenv()
 # To get the value of an environment variable
 api_key = os.getenv('api_key')
 api_secret = os.getenv('api_secret')
