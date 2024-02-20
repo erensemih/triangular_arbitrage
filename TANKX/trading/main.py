@@ -17,7 +17,9 @@ def process_triangle(triangle):
         bid_A = float(redis_client.hget(A, "bid"))
         bid_B = float(redis_client.hget(B, "bid"))
         bid_C = float(redis_client.hget(C, "bid"))
-        print(f"{A}, {B}, {C} triangular bid artibrage",bid_A*bid_B/bid_C)
+        opportunity = bid_A*bid_B/bid_C
+        if opportunity>1:
+            print(f"{A}, {B}, {C} triangular bid artibrage",opportunity)
     except TypeError:
         pass
 
@@ -25,9 +27,10 @@ def process_triangle(triangle):
         ask_A = float(redis_client.hget(A, "ask"))
         ask_B = float(redis_client.hget(B, "ask"))
         ask_C = float(redis_client.hget(C, "ask"))
+        opportunity = ask_A*ask_B/ask_C
+        if opportunity<1:
+            print(f"{A}, {B}, {C} triangular ask artibrage",opportunity)
         
-        
-        print(f"{A}, {B}, {C} triangular ask artibrage",ask_A*ask_B/ask_C)
 
     except TypeError:
         pass
