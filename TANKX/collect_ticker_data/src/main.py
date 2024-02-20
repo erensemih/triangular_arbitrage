@@ -31,9 +31,14 @@ redis_client = redis.Redis(host=REDIS_HOSTNAME, port=REDIS_PORT)
 def write_to_redis(msg):
     """Process incoming bookTicker messages."""
     #print(msg["s"])
-    redis_client.hset(msg["s"], "bid", msg["b"])
-    redis_client.hset(msg["s"], "ask", msg["a"])
-
+    try:
+        redis_client.hset(msg["s"], "bid", msg["b"])
+    except Exception as e:
+        print(msg)
+    try:
+        redis_client.hset(msg["s"], "ask", msg["a"])
+    except Exception as e:
+        print(msg)
 def remove_from_redis(symbol):
     """Remove bid and ask fields for a symbol from Redis."""
     
