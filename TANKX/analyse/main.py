@@ -52,10 +52,15 @@ def process_message(msg):
     msg_symbols = set(list(msg_dict.keys()))
     for triangle in all_triangles:
         A,B,C = triangle[0], triangle[1], triangle[2]
-        if set([A, B, C]) <= msg_symbols:
+        import logging
+        #logging.warning(f"{A}_{B}_{C}")
+        #logging.warning(list(msg_symbols)[:2])
+        pair_A, pair_B, pair_C = A+B, B+C, A+C
+        if set([pair_A, pair_B, pair_C]) <= msg_symbols:
             
-            bid_arbitrage = np.abs(1-float(msg_dict[A]['b']) *float(msg_dict[B]['b']) / float(msg_dict[C]['b']))
-            ask_arbitrage = np.abs(1-float(msg_dict[A]['a']) *float(msg_dict[B]['a'] )/ float(msg_dict[C]['a']))
+            
+            bid_arbitrage = np.abs(1-float(msg_dict[pair_A]['b']) *float(msg_dict[pair_B]['b']) / float(msg_dict[pair_C]['b']))
+            ask_arbitrage = np.abs(1-float(msg_dict[pair_A]['a']) *float(msg_dict[pair_B]['a'] )/ float(msg_dict[pair_C]['a']))
             discrepancy_dict[f"{A}_{B}_{C}"] += bid_arbitrage + ask_arbitrage
             
 
